@@ -42,6 +42,9 @@ dependencies:
   permission_handler: ^8.1.6
   path_provider: ^2.0.4
   flutter_sound: ^8.3.12
+  twilio_flutter: ^0.0.9
+  location: ^4.3.0
+  geocoding: ^2.0.1
 
 dev_dependencies:
   flutter_test:

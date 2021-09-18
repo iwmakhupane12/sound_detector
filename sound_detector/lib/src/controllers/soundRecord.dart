@@ -1,4 +1,3 @@
-
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:intl/date_symbol_data_file.dart';
@@ -6,12 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class SoundRecord{
+class SoundRecord {
   String pathToSaveRecord = "";
   FlutterSoundRecorder? _audioRecorder;
   bool _isRecorderInitialized = false;
 
-  void init() async{
+  void init() async {
     _audioRecorder = FlutterSoundRecorder();
 
     await Permission.microphone.request();
@@ -19,7 +18,7 @@ class SoundRecord{
     await Permission.manageExternalStorage.request();
 
     final status = await Permission.microphone.status;
-    if(status != PermissionStatus.granted){
+    if (status != PermissionStatus.granted) {
       throw RecordingPermissionException("Microphone permission is required");
     }
 
@@ -35,18 +34,23 @@ class SoundRecord{
     _isRecorderInitialized = true;
   }
 
-    void dispose(){
-      _audioRecorder!.closeAudioSession();
-      _audioRecorder = null;
-      _isRecorderInitialized = false;
-    }
+  void dispose() {
+    _audioRecorder!.closeAudioSession();
+    _audioRecorder = null;
+    _isRecorderInitialized = false;
+  }
 
-  Future _record() async{
+  Future _record() async {
     _localPath();
 
     pathToSaveRecord = DateFormat('kk_mm_ss_EEE_d_MMM').format(DateTime.now());
 
-    await _audioRecorder!.startRecorder(toFile: "$filePath/$pathToSaveRecord.wav" );
+    await _audioRecorder!
+        .startRecorder(toFile: "$filePath/Detector_$pathToSaveRecord.wav");
+  }
+
+  bool recordingStatus() {
+    return _audioRecorder!.isRecording;
   }
 
   String filePath = "";
@@ -58,15 +62,15 @@ class SoundRecord{
     filePath = directory.path;
   }
 
-  Future _stop() async{
+  Future _stop() async {
     await _audioRecorder!.stopRecorder();
   }
 
-  Future isStartStop() async{
-    if(_audioRecorder!.isStopped){
+  Future isStartStop() async {
+    if (_audioRecorder!.isStopped) {
       _record();
-  }else{
+    } else {
       _stop();
+    }
   }
-}
 }

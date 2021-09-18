@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sound_detector/src/controllers/getCurrentLocation.dart';
+import 'package:sound_detector/src/controllers/sendMessage.dart';
 import 'package:sound_detector/src/controllers/soundRecord.dart';
 
 //fimport 'package:sound_detector/src/screens/profile.dart';
@@ -17,12 +19,17 @@ class MyHomeScreen extends StatefulWidget {
 
 class _MyHomeScreenState extends State<MyHomeScreen> {
   final recorder = SoundRecord();
+  final sendMessage = SendMessage();
+  final getCurrentLoc = GetCurrentLocation();
 
   @override
   void initState() {
     super.initState();
 
     recorder.init();
+    sendMessage.init();
+    getCurrentLoc.init();
+    getCurrentLoc.getLocData();
   }
 
   @override
@@ -49,12 +56,29 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 child: Center(
                   child: Column(
                     children: [
-                      Text("Hello Mazingo"),
+                      const Text("Hello Mazingo"),
                       ElevatedButton(
-                          onPressed: () {
-                            Get.to(Settings());
+                          onPressed: () async {
+                            //Get.to(Settings());
+                            sendMessage.sendSms('+27678752440',
+                                getCurrentLoc.lat!, getCurrentLoc.lon!);
+                            print("SMS Status: ${sendMessage.sentStatus}");
                           },
-                          child: Text("Record"))
+                          child: const Text("Send SMS")),
+                      ElevatedButton(
+                          onPressed: () async {
+                            //Get.to(Settings());
+                            sendMessage.sendWhatsApp('+27678752440');
+                            print("WhatsApp Status: ${sendMessage.sentStatus}");
+                          },
+                          child: Text("Send WhatsApp")),
+                      ElevatedButton(
+                          onPressed: () async {
+                            getCurrentLoc.getLocData();
+                            print("Longitude: ${getCurrentLoc.lon}");
+                            print("Latitude: ${getCurrentLoc.lat}");
+                          },
+                          child: Text("Get Location")),
                     ],
                   ),
                 ),
@@ -73,13 +97,21 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             child: FloatingActionButton(
               onPressed: () async {
                 recorder.isStartStop();
+                setState(() {});
               },
-              child: Icon(
-                Icons.keyboard_voice_rounded,
-                color: Colors.white,
-                size: 30,
-              ),
-              backgroundColor: Colors.red,
+              child: !recorder.recordingStatus()
+                  ? const Icon(
+                      Icons.keyboard_voice_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    )
+                  : const Icon(
+                      Icons.stop,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+              backgroundColor:
+                  !recorder.recordingStatus() ? Colors.red : Colors.white,
             ),
           ),
         ),
