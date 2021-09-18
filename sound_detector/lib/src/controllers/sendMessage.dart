@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 import 'package:twilio_flutter/twilio_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 
 class SendMessage {
   TwilioFlutter? twilioFlutter;
@@ -16,12 +15,10 @@ class SendMessage {
 
   Future sendSms(String number, double latitude, double longitude) async {
     sentStatus = 0;
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(latitude, longitude);
     sentStatus = await twilioFlutter!.sendSMS(
         toNumber: number,
         messageBody:
-            'Hi Itumeleng I need help, my latitude and longitude coordidates are : ${placemarks.first}'); /*https://www.google.com/maps/@$longitude,$latitude , call the police);*/
+            'Hi Itumeleng I need help, my latitude and longitude coordidates are : https://www.google.com/maps/@$longitude,$latitude , call the police');
   }
 
   Future sendWhatsApp(String number) async {
