@@ -37,14 +37,12 @@ dependencies:
   get: ^4.3.8
   google_fonts: ^2.1.0
   intl_phone_number_input: ^0.7.0+2
-  image_picker: ^0.8.4
   intl: ^0.17.0
   permission_handler: ^8.1.6
   path_provider: ^2.0.4
   flutter_sound: ^8.3.12
   twilio_flutter: ^0.0.9
   location: ^4.3.0
-  geocoding: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,182 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:sound_detector/src/helpers/contactTextField.dart';
+import 'package:sound_detector/src/helpers/iconTextField.dart';
+import 'package:sound_detector/src/helpers/iconsHelper.dart';
+
 class Profile extends StatefulWidget {
-  @override
-  Profile({ Key? key }) : super(key: key);
+  const Profile({Key? key}) : super(key: key);
 
   @override
-  _createProfileState createState() => _createProfileState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _createProfileState extends State<Profile>{
-  // File _pickedImage;
-//  PickedFile _imageFile;
- final ImagePicker _picker =  ImagePicker();
+class _ProfileState extends State<Profile> {
+  final IconTextField iconTextField = IconTextField();
+  TextEditingController? nameSurnameController,
+      contactController,
+      addressController;
+  final ContactTextField contactTextField = ContactTextField();
+
+  @override
+  void initState() {
+    nameSurnameController = TextEditingController();
+    contactController = TextEditingController();
+    addressController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameSurnameController!.dispose();
+    contactController!.dispose();
+    addressController!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body :Padding(
-       padding:const EdgeInsets.symmetric(horizontal: 20, vertical:20),
-       child:ListView(
-       children:<Widget> [
-         imageProfile(),
-         SizedBox(
-           height: 20,
-         ),
-         nameTextField(),
-         SizedBox(
-           height: 20,
-         ),
-         ContactTextField(),
-          SizedBox(
-           height: 20,
-         ),
-          AddressTextField(),
-           SizedBox(
-           height: 20,
-         ),
-
-       ],
-     ),)
-    );
-  }
- 
-
-  Widget nameTextField(){
-    return TextFormField(
-         decoration: InputDecoration(
-           border: OutlineInputBorder(
-             borderSide:BorderSide(
-               color: Colors.teal)),
-               focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.purple,
-                   width: 2)
-               ),
-               prefixIcon:  Icon(Icons.person,
-               color: Colors.purple,),
-               labelText: "Full Name",
-               helperText: "Enter your name",
-               hintText: "Enter Name and Surname"
-               ),
-    );
-  }
-  Widget imageProfile(){
-   return Center(
-      
-    child: Stack( children:<Widget> [
-         CircleAvatar(
-          radius: 80.0,
-          backgroundImage:AssetImage("assets/download.png")
-          ),
-           Positioned(
-             bottom: 20.0,
-            right: 20.0,
-            child:InkWell(
-              onTap: (){
-                 showBottomSheet(context: context,
-                 builder:((builder)=> bottomSheet())
-                   );
-               },
-           child: Icon(
-              Icons.camera_alt,
-              color: Colors.teal,
-              size: 28.0,
-           )),
-           )
-      ],
-
-  )
-    );
-  }
-
-
-  Widget bottomSheet(){
-   return Container(
-       height:100.0,
-       width: MediaQuery.of(context).size.width,
-       margin: EdgeInsets.symmetric(
-        horizontal: 20,
-       vertical: 20,
-     ),
-        child: Column(children: <Widget>[
-        Text(
-          "Choose Profile photo",
-          style: TextStyle(
-            fontSize: 20.0,
+        appBar: AppBar(
+          title: const Text("Profile", style: TextStyle(color: Colors.black)),
+          elevation: 1,
+          iconTheme: const IconThemeData(
+            color: Colors.black,
           ),
         ),
-        SizedBox(
-           height: 20,
-         ),
-         Row(
-           mainAxisAlignment:MainAxisAlignment.center,
-           children:<Widget>[
-             TextButton.icon(
-               icon:Icon(Icons.camera),
-               onPressed: (){
-            //  takePhoto(ImageSource.camera);
-               },
-                label: Text("camera"),
-               ),
-               TextButton.icon(
-               icon:Icon(Icons.image),
-               onPressed: (){
-               // takePhoto(ImageSource.gallery);
-               },
-                 label: Text("Gallery"),
-               ),
-           ],
-       )
-      ]),
-    );
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: ListView(
+            children: <Widget>[
+              const SizedBox(height: 20),
+              IconTextField.textField(
+                  nameSurnameController!,
+                  "Full Name",
+                  "Enter your name and surname",
+                  "Enter Name and Surname",
+                  IconHelper.personIcon,
+                  1),
+              const SizedBox(height: 20),
+              contactTextField.contactTextField(
+                  context, contactController!, "Mobile Number", "621034569"),
+              const SizedBox(height: 20),
+              IconTextField.textField(
+                  addressController!,
+                  "Home Address",
+                  "Enter your home address",
+                  "Enter your home address",
+                  IconHelper.addressIcon,
+                  6),
+              const SizedBox(height: 20),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("Update"),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
-//   void takePhoto(ImageSource source) async{
-//    final pickedFile = await _picker;
-//    setState(() {
-//    _imageFile = pickedFile ;
-//       });
-
-// }
-
-  Widget ContactTextField(){
-    return TextFormField(
-         decoration: InputDecoration(
-           border: OutlineInputBorder(
-             borderSide:BorderSide(
-               color: Colors.teal)),
-               focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.purple,
-                   width: 2)
-               ),
-               prefixIcon:  Icon(Icons.contacts,
-               color: Colors.purple,),
-               labelText: "Contacts",
-               helperText: "Enter your phone numbers",
-               hintText: "Enter Name and Surname"
-               ),
-    );
-  }
-  Widget AddressTextField(){
-    return TextFormField(
-         maxLines: 6,
-         decoration: InputDecoration(
-           border: OutlineInputBorder(
-             borderSide:BorderSide(
-               color: Colors.teal)),
-               focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.purple,
-                   width: 2)
-               ),
-               prefixIcon:  Icon(Icons.home,
-               color: Colors.purple,),
-               labelText: "Home Adress",
-               helperText: "Enter you home address ",
-               hintText: "Enter Name and Surname"
-               ),
-    );
-  }
-
 }
