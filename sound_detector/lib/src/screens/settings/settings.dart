@@ -12,22 +12,12 @@ class Settings {
   final String saveRecSubtitle =
       "Save recordings after finishing the recording.";
   final String sendWhatsAppTitle = "Send recording";
-  final String sendWhatsAppSubtitle =
-      "Send recording to saved WhatsApp contacts";
+  final String sendWhatsAppSubtitle = "Send recording to saved contacts";
   final String personalizeText = "Send text message";
 
   Widget settings() {
     return Column(
       children: [
-        GetBuilder<SettingsController>(
-          builder: (_) => CheckboxListTile(
-            title: Text(saveRecTitle),
-            subtitle: Text(saveRecSubtitle),
-            value: settingsController.saveRecording,
-            onChanged: (value) => settingsController.toggleSave(value),
-          ),
-        ),
-        const Divider(),
         const Text(
           "Add Emergency Contacts",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -41,14 +31,6 @@ class Settings {
               subtitle: Text(
                   "Text message that will be sent to the emergency contact details"),
             )),
-        GetBuilder<SettingsController>(
-          builder: (_) => CheckboxListTile(
-            title: Text(sendWhatsAppTitle),
-            subtitle: Text(sendWhatsAppSubtitle),
-            value: settingsController.sendRecording,
-            onChanged: (value) => settingsController.toggleSend(value),
-          ),
-        ),
         InkWell(
             onTap: () {},
             child: const ListTile(
@@ -62,7 +44,7 @@ class Settings {
             child: const ListTile(
               title: Text("Privacy Policy"),
             )),
-            SizedBox(height:10.0),
+        const SizedBox(height: 10.0),
       ],
     );
   }

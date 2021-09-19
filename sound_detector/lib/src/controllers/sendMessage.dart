@@ -18,7 +18,7 @@ class SendMessage {
     sentStatus = await twilioFlutter!.sendSMS(
         toNumber: number,
         messageBody:
-            'Hi Itumeleng I need help, my latitude and longitude coordidates are : https://www.google.com/maps/@$longitude,$latitude , call the police');
+            'Emergency!!!...Hi, my name is Itumeleng I need help, my latitude and longitude coordidates are: https://www.google.com/maps/search/@$longitude,$latitude?sa=X , call the police');
   }
 
   Future sendWhatsApp(String number) async {
@@ -26,6 +26,6 @@ class SendMessage {
     sentStatus = await twilioFlutter!.sendWhatsApp(
         toNumber: number,
         messageBody:
-            'Hi Itumeleng I need help, my location is: LatLLang, call the police');
+            'Hi, my name is Itumeleng and I need help urgently, my location is: LatLLang, call the police');
   }
 }

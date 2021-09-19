@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:intl/date_symbol_data_file.dart';
@@ -22,14 +24,13 @@ class SoundRecord {
       throw RecordingPermissionException("Microphone permission is required");
     }
 
-    await _audioRecorder!.openAudioSession();
-
     await _audioRecorder!.openAudioSession(
         focus: AudioFocus.requestFocusAndStopOthers,
-        category: SessionCategory.playAndRecord,
+        category: SessionCategory.record,
         mode: SessionMode.modeDefault,
         device: AudioDevice.speaker);
-    await _audioRecorder!.setSubscriptionDuration(Duration(milliseconds: 10));
+    await _audioRecorder!
+        .setSubscriptionDuration(const Duration(milliseconds: 10));
 
     _isRecorderInitialized = true;
   }

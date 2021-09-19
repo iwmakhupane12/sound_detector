@@ -48,13 +48,13 @@ class WhatsAppContacts extends StatelessWidget {
                   whatsapp3,
                   "Emergency Contact 3 (Optional)",
                   "621034569",
-                ),
+                ),Container(height:40,width:MediaQuery.of(context).size.width,child:
                 ElevatedButton(
                   onPressed: () {
                     Get.back();
                   },
                   child: const Text("Update"),
-                ),
+                ),),
               ],
             ),
           ),

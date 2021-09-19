@@ -17,4 +17,16 @@ class IconHelper {
     Icons.home,
     color: Colors.black,
   );
+
+  static Icon voiceRoundedIcon = const Icon(
+    Icons.keyboard_voice_rounded,
+    color: Colors.white,
+    size: 30,
+  );
+
+  static Icon stopIcon = const Icon(
+    Icons.stop,
+    color: Colors.black,
+    size: 30,
+  );
 }
